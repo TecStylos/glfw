@@ -11,12 +11,16 @@ set (
 	"src/init.c"
 	"src/input.c"
 	"src/monitor.c"
-	"src/vulkan.c"
+	"$<$<BOOL:WIN32>:src/vulkan.c>"
 	"src/window.c"
 )
 
 set(
 	GLFW_COMPILE_OPTIONS
+)
+
+set (
+	GLFW_LINK_LIBRARIES
 )
 
 if (WIN32)
@@ -38,6 +42,7 @@ if (WIN32)
 		${GLFW_COMPILE_OPTIONS}
 		"-D_GLFW_WIN32"
 		"-D_CRT_SECURE_NO_WARNINGS"
+		"-Wl,--no-as-needed"
 	)
 elseif(UNIX)
 	set(
@@ -59,11 +64,22 @@ elseif(UNIX)
 		${GLFW_COMPILE_OPTIONS}
 		"-D_GLFW_X11"
 	)
+
+	set(
+		GLFW_LINK_LIBRARIES
+		${GLFW_LINK_LIBRARIES}
+		dl m GL X11 pthread
+	)
 endif()
 
 add_library(
 	GLFW STATIC 
 	${GLFW_LIB_FILES}
+)
+
+target_link_libraries(
+	GLFW PUBLIC 
+	${GLFW_LINK_LIBRARIES}
 )
 
 target_compile_options(

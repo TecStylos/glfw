@@ -11,7 +11,6 @@ set (
 	"src/init.c"
 	"src/input.c"
 	"src/monitor.c"
-	"$<$<BOOL:WIN32>:src/vulkan.c>"
 	"src/window.c"
 )
 
@@ -36,13 +35,13 @@ if (WIN32)
 		"src/wgl_context.c"
 		"src/egl_context.c"
 		"src/osmesa_context.c"
+		"src/vulkan.c"
 	)
 	set(
 		GLFW_COMPILE_OPTIONS
 		${GLFW_COMPILE_OPTIONS}
 		"-D_GLFW_WIN32"
 		"-D_CRT_SECURE_NO_WARNINGS"
-		"-Wl,--no-as-needed"
 	)
 elseif(UNIX)
 	set(
@@ -63,6 +62,7 @@ elseif(UNIX)
 		GLFW_COMPILE_OPTIONS
 		${GLFW_COMPILE_OPTIONS}
 		"-D_GLFW_X11"
+		#"-Wl,--no-as-needed"
 	)
 
 	set(

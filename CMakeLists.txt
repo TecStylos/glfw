@@ -62,13 +62,12 @@ elseif(UNIX)
 		GLFW_COMPILE_OPTIONS
 		${GLFW_COMPILE_OPTIONS}
 		"-D_GLFW_X11"
-		#"-Wl,--no-as-needed"
 	)
 
 	set(
 		GLFW_LINK_LIBRARIES
 		${GLFW_LINK_LIBRARIES}
-		dl m GL X11 pthread
+		m GL X11 pthread dl
 	)
 endif()
 
